@@ -87,9 +87,9 @@ class BlobExchangeClientProtocol(asyncio.Protocol):
             msg = f"downloading {self.blob.blob_hash[:8]} from {self.peer_address}:{self.peer_port}," \
                 f" timeout in {self.peer_timeout}"
             log.info(msg)
+            msg = f"downloaded {self.blob.blob_hash[:8]} from {self.peer_address}"
             await asyncio.wait_for(self.writer.finished, self.peer_timeout, loop=self.loop)
             await self.blob.finished_writing.wait()
-            msg = f"downloaded {self.blob.blob_hash[:8]} from {self.peer_address}"
             log.info(msg)
             return True, True
         except asyncio.CancelledError:
